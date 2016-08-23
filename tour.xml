@@ -1,0 +1,97 @@
+﻿<krpano version="1.19" title="Virtual Tour">
+
+	<include url="skin/videointerface.xml" />
+	<include url="actions.xml" />
+
+	
+
+	<!-- startup action - load the first scene -->
+	<action name="startup" autorun="onstart">
+		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
+		loadscene(get(startscene), null, MERGE);
+		if(startactions !== null, startactions() );
+	</action>
+
+
+	
+	<scene name="scene1" title="Trafalgar St Tunnel" onstart="" thumburl="videos/scene1_thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0" vlookat="0" fovtype="dfov" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="120" limitview="auto" />
+
+		<preview url="" />
+		
+		<plugin name="video"
+			url.flash="%SWFPATH%/plugins/videoplayer.swf"
+			url.html5="%SWFPATH%/plugins/videoplayer.js"
+
+			posterurl="videos/VR_PanoramaHDold-1024-5000kps.png"
+		    volume="1.0"
+			pausedonstart="false"
+			loop="true"
+			enabled="false"
+			zorder="0"
+			align="center" ox="0" oy="0"
+			
+			onloaded="add_video_sources();"
+			
+			width.no-panovideosupport="100%"
+			height.no-panovideosupport="prop" />
+
+		<!-- the panoramic video image -->
+		<image devices="panovideosupport">
+			<sphere url="plugin:video" />
+		</image>
+
+		<!-- add the video sources and play the video -->
+		<action name="add_video_sources">
+			videointerface_clear();
+			videointerface_addsource('2010', 'videos/VR_PanoramaHD2010-1024.mp4', 'videos/VR_PanoramaHD2010/img');
+			videointerface_addsource('Feb 2014', 'videos/VR_PanoramaHDold-1024-5000kps.mp4', 'videos/VR_PanoramaHDold/img');
+			videointerface_addsource('Sep 2014', 'videos/VR_PanoramaHDnew-1024-35pc.mp4', 'videos/VR_PanoramaHDnew/img');
+			
+			videointerface_play('Feb 2014');
+			<!--if(device.ios,-->
+				<!-- iOS Safari has a very slow 'video-to-webgl-texture' transfer, therefore use a low-res video by default -->
+				<!--videointerface_play('480p');
+			  ,
+				videointerface_play('1440p');
+			  );-->
+		</action>		
+		
+	<!--	<layer name="map_image" keep="true" 
+			 url="../images/mudmap/01_University_mall_entrance.png"
+			 scale="0.75"
+			 x="0" y="0"
+			 align="rightbottom" alpha="1" autoalpha="true"
+			 />-->
+		
+		<hotspot name="spot3" style="skin_hotspotstyle" ath="45.401" atv="-1.943" linkedscene="scene10" />
+		<hotspot name="scene1_spot4" style="hotspot_image" ath="98.828" atv="-23.991" onclick="js( myHotspots.clicked(scene1_spot4 ) );" />
+		<hotspot name="scene1_spot5" style="hotspot_image" ath="93.545" atv="1.817" onclick="js( myHotspots.clicked(scene1_spot5 ) );" />
+		<!-- place your scene hotspots here -->
+		
+		<hotspot name="scene1_spot6" style="hotspot_image" ath="116.238" atv="-2.861" onclick="js( myHotspots.clicked(scene1_spot6 ) );" />
+		<hotspot name="spot7" style="skin_hotspotstyle" ath="173.439" atv="-3.314" linkedscene="scene5" />
+		<hotspot name="spot8" style="skin_hotspotstyle" ath="206.480" atv="-1.793" linkedscene="scene8" />
+		<hotspot name="scene1_spot9" style="hotspot_video" ath="271.122" atv="-16.873" onclick="js( myHotspots.clicked(scene1_spot9 ) );" />
+		<hotspot name="scene1_spot10" style="hotspot_video" ath="298.426" atv="-6.924" onclick="js( myHotspots.clicked(scene1_spot10 ) );" />
+		<hotspot name="scene1_spot11" style="hotspot_video" ath="-3.694" atv="-15.385" onclick="js( myHotspots.clicked(scene1_spot11 ) );" />
+		<hotspot name="scene1_spot12" style="hotspot_image" ath="44.738" atv="-35.709" onclick="js( myHotspots.clicked(scene1_spot12 ) );" />
+		
+		<!-- mud map -->
+<!--
+		../images/Mud%20map/01_University_mall_entrance.png
+		
+		-->
+		
+		
+		
+	</scene>
+
+	<scene name="scene2" title="University Mall" onstart="" thumburl="videos/scene1_thumb.jpg" lat="" lng="" heading="">
+
+		
+	</scene>
+	
+	
+</krpano>

@@ -1,0 +1,63 @@
+<krpano version="1.19" bgcolor="0x000000">
+    <events 
+        name="film_events"
+        onloadcomplete="checkvideotime();" />
+
+    <action name="scrollto">
+        layer[scrollarea2].scrollby(1000,20);
+    </action>
+
+    <action name="getLoadedBytes">
+        get(plugin[video].loadedBytes)
+    </action>
+
+    <action name="film_ended">
+        plugin[video].pause();
+    	js(myUSYTour.filmEnded());
+    </action>
+
+    <action name="film_track">
+        js(myUSYTour.filmTrack(%1));
+    </action>
+
+    <action name="playFilm">
+        <!-- disableHotspots();-->
+        plugin[video].play();
+    	plugin[video].seek(0);
+	</action>
+
+    <action name="loop_back_to">
+    	plugin[video].seek(%1);
+    </action>
+
+
+    <action name="moveCameraTo">
+        <!-- %1 = h, %2 = v -->
+        lookat(%1,%2);
+    </action>
+  
+
+    <action name="enableHotSpots">
+        for (set(i,0), i LT hotspot.count, inc(i),
+            set(hotspot[get(i)].visible, true);
+        );
+    </action>
+
+    <action name="disableHotspots">
+        for (set(i,0), i LT hotspot.count, inc(i),
+            set(hotspot[get(i)].visible, false);
+        );
+    </action>
+    
+    <action name="muteVideo">
+        set(plugin[video].volume, 0);
+    </action>
+
+    <action name="unMuteVideo">
+        set(plugin[video].volume, 1);
+    </action>
+
+    <action name="showThumbs">
+        if (%1 == true, tween(layer[thumbs].y, 0, 0.5, easeOutExpo), tween(layer[thumbs].y, -300, 0.5, easeOutExpo));
+    </action>
+</krpano>

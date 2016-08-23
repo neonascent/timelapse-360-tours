@@ -1,0 +1,323 @@
+<krpano>
+
+	<!-- krpano 1.19.pr4 - Video-Interface Skin -->
+
+
+	<!-- skin settings -->
+	<skin_settings layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="40"
+	               controlbar_offset="20"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x2D3E50"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="1"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="0"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+
+	<!-- save the url path of this xml file (the url value will be adjusted during xml parsing) -->
+	<videointerfacexmlpath url="./" />
+
+
+	<!-- mouse / touch / keyboard(button) control settings - http://krpano.com/docu/xml/#control -->
+	<control mouse="drag"
+	         touch="drag"
+	         zoomtocursor="false"
+	         zoomoutcursor="false"
+	         draginertia="0.1"
+	         dragfriction="0.9"
+	         movetoaccelerate="1.0"
+	         movetospeed="10.0"
+	         movetofriction="0.8"
+	         keybaccelerate="0.09"
+	         keybfriction="0.94"
+	         keybfovchange="0.25"
+	         mousefovchange="1.0"
+	         fovspeed="3.0"
+	         fovfriction="0.9"
+	         bouncinglimits="true"
+	         />
+
+	<!-- mouse cursors - http://krpano.com/docu/xml/#cursors -->
+	<cursors standard="default"
+	         dragging="move"
+	         moving="move"
+	         />
+
+
+	<!-- ensure stagescale 2x for mobile devices (regardless if mobilescale is 0.5 or 1.0) -->
+	<krpano stagescale="calc:stagescale * 2" if="stagescale LT 1.0" devices="mobile" />
+
+
+	<!-- include VR support - http://krpano.com/plugins/webvr/ -->
+	<include url="%SWFPATH%/plugins/webvr.xml" devices="html5" />
+
+	<!-- skin styles -->
+
+	<!-- skin_base - the base skin image -->
+	<style name="skin_base" url="calc:videointerfacexmlpath.url + skin_settings.design_skin_images" />
+
+
+	<!-- skin layout -->
+
+	<style name="skintext" url="%SWFPATH%/plugins/textfield.swf" background="false" border="false" css="calc:skin_settings.design_text_css + ' text-align:left; font-style:italic; font-size:12px;'" textshadow="get:skin_settings.design_text_shadow" />
+	<style name="skintext_sel" css="calc:skin_settings.design_text_css + ' text-align:left; font-style:italic; font-size:12px; text-decoration:underline;'" />
+	<style name="settingsitem" type="container" align="lefttop" x="0" y="8" width="100%" height="20" bgcolor="0xFFFFFF" bgalpha="0.0" bgcapture="true" onover="set(bgalpha,0.25);" onout="set(bgalpha,0.0);" ondown.touch="onover();" onup.touch="onout();" children="false" />
+
+
+	<layer name="skin_layer" keep="true" type="container" align="top" width="get:skin_settings.layout_width" maxwidth="get:skin_settings.layout_maxwidth" height="100%" maskchildren="true" xvisible="false" bgcapture="false" zorder="1">
+
+		<layer name="skin_control_bar" state="visible" type="container" autoalpha="true" align="bottom" width="200" height="20" x="0" y="get:skin_settings.controlbar_offset" zorder="3" bgcolor="get:skin_settings.design_bgcolor" bgalpha="get:skin_settings.design_bgalpha" bgborder="get:skin_settings.design_bgborder" bgroundedge="get:skin_settings.design_bgroundedge" bgshadow="get:skin_settings.design_bgshadow">
+
+			<!-- right buttons - vr, settings, fullscreen -->
+
+			<!--<layer name="skin_btn_fullscreen" style="skin_base|skin_glow" crop="0|576|64|64" align="right" x="5" y="0" scale="0.5" onclick="switch(fullscreen);" devices="fullscreensupport" />-->
+
+			<!-- settings menu -->
+				<layer name="skin_quality_container" style="settingsitem" x="0" onclick="tween(layer[skin_settings_menu].alpha,0.0,0.2);tween(layer[skin_settings_quality].alpha,1.0,0.2);">
+					<layer name="skin_quality_txt" style="skintext" align="left" x="8" html="Quality" />
+					<layer name="skin_quality" style="skintext" align="right" x="10" html="" />
+				</layer>
+
+		
+			<!-- video-quality sub-menu -->
+			<layer name="skin_settings_quality" type="container" align="righttop" edge="rightbottom" width="108" height="calc:8+24+8" autoalpha="true" alpha="0.0" y="-24" bgcapture="true" handcursor="false" bgcolor="get:skin_settings.design_bgcolor" bgalpha="get:skin_settings.design_bgalpha" bgborder="get:skin_settings.design_bgborder" bgroundedge="get:skin_settings.design_bgroundedge" bgshadow="get:skin_settings.design_bgshadow">
+				<layer name="skin_settings_q0" style="settingsitem" y="8" onclick="tween(layer[skin_settings_quality].alpha,0.0,0.2);tween(layer[skin_settings_menu].alpha,1.0,0.2);"><layer name="skin_settings_q0t" x="-1" style="skintext" align="center" html="Quality" /></layer>
+				<layer name="skin_settings_qs" type="container" align="lefttop" y="36" width="100%" height="1" bgcolor="0xFFFFFF" bgalpha="0.5" />
+			</layer>
+
+
+
+		</layer>
+
+	</layer>
+
+
+	<action name="skin_video_setup">
+		if(skin_video_setup_done !== true,
+			set(skin_video_setup_done, true);
+
+			<!-- use the video events for getting state updates -->
+			set(plugin[video].onvideoready, skin_video_updatestate() );
+			set(plugin[video].onvideoplay, skin_video_updatestate(); );
+			set(plugin[video].onvideopaused, skin_video_updatestate(); skin_show_playpause(); );
+			set(plugin[video].onvideocomplete, skin_video_updatestate(); skin_show_playpause(); skin_show(); );
+			set(plugin[video].onerror, skin_video_error() );
+
+			<!-- when paused onstart, show the play button -->
+			if(plugin[video].pausedonstart,
+				set(layer[skin_video_playpause].state, 'visible');
+				set(layer[skin_video_playpause].enabled, true);
+				tween(layer[skin_video_playpause].alpha, 1.0);
+			  );
+
+			<!-- use the current scene title -->
+			copy(layer[skin_title].html, scene[get(xml.scene)].title);
+
+			<!-- start the video-time update interval -->
+			setinterval(skin_video_seek_updates, 0.5, skin_video_updatetime() );
+		  );
+	</action>
+
+
+	<action name="skin_video_updatetime">
+		copy(t1, plugin[video].time);
+		copy(t2, plugin[video].totaltime);
+		if(%1 !== null, calc(t1, %1 * t2); );
+		div(t1_min, t1, 60);
+		mod(t1_sec, t1, 60);
+		Math.floor(t1_min);
+		Math.floor(t1_sec);
+		div(t2_min, t2, 60);
+		mod(t2_sec, t2, 60);
+		Math.floor(t2_min);
+		Math.floor(t2_sec);
+		calc(layer[skin_video_time].html, t1_min + ':' + (t1_sec LT 10 ? '0' : '') + t1_sec + ' / ' + t2_min + ':' + (t2_sec LT 10 ? '0' : '') + t2_sec);
+		calc(layer[skin_video_seekpos].x, (t1 / t2 * 100) + '%');
+		calc(layer[skin_video_loadbar].width, (plugin[video].loadedbytes / plugin[video].totalbytes * 100) + '%');
+	</action>
+
+
+	<action name="skin_video_ondownseeking">
+		asyncloop(pressed,
+			screentolayer(skin_video_seekbar, mouse.stagex,mouse.stagey, lx,ly);
+			calc(seekpos, lx / layer[skin_video_seekbar].pixelwidth);
+			clamp(seekpos, 0.0, 1.0);
+			skin_video_updatetime(seekpos);
+		  ,
+			plugin[video].seek(calc((seekpos * 100) + '%'));
+		  );
+	</action>
+
+
+	<action name="skin_video_updatestate">
+		calc(layer[skin_video_playpause].crop, plugin[video].ispaused ? '0|640|64|64' : '64|640|64|64');
+		copy(layer[skin_btn_playpause].crop, layer[skin_video_playpause].crop);
+	</action>
+
+
+	<action name="skin_video_error">
+		calc(layer[skin_error_msg].html, 'Error: ' + videoerror);
+		set(layer[skin_error].visible, true);
+	</action>
+
+
+	<action name="skin_video_click_event">
+		delayedcall(skin_click_detection, 0.25,
+			if(layer[skin_control_bar].state == 'hidden',
+				stopdelayedcall(skin_autohide_pp);
+				skin_show();
+				skin_show_playpause();
+			  ,
+				if(skin_settings_opened === true OR skin_volumectrl_opened == true,
+					skin_close_settings();
+					skin_close_volumectrl();
+				  ,
+					stopdelayedcall(skin_autohide_pp);
+					if(layer[skin_video_playpause].state == 'hidden',
+						skin_show_playpause();
+					  ,
+						skin_hide_playpause();
+						skin_autohide(0.0);
+					  );
+				  );
+			  );
+		  );
+	</action>
+
+
+	<action name="skin_autohide">
+		delayedcall(skin_autohide, %1,
+			set(layer[skin_control_bar].state, 'hidden');
+			tween(layer[skin_control_bar].y, calc(-(skin_settings.controlbar_offset + skin_settings.controlbar_height)));
+			tween(layer[skin_control_bar].alpha, 0.0);
+		  );
+	</action>
+
+
+	<action name="skin_show">
+		stopdelayedcall(skin_autohide);
+		set(layer[skin_control_bar].state, 'visible');
+		tween(layer[skin_control_bar].y, get(skin_settings.controlbar_offset));
+		tween(layer[skin_control_bar].alpha, 1.0);
+	</action>
+
+
+	<action name="skin_show_playpause">
+		set(layer[skin_video_playpause].state, 'visible');
+		tween(layer[skin_video_playpause].alpha, 1.0);
+		delayedcall(skin_autohide_pp, 2.0,
+			set(layer[skin_video_playpause].state,'hidden');
+			tween(layer[skin_video_playpause].alpha, 0.0);
+		  );
+	</action>
+
+
+	<action name="skin_hide_playpause">
+		set(layer[skin_video_playpause].state, 'hidden');
+		tween(layer[skin_video_playpause].alpha, 0.0);
+	</action>
+
+
+	<action name="skin_video_down_event">
+		stopdelayedcall(skin_click_detection);
+	</action>
+
+
+	<action name="skin_video_playpause_click">
+		if(plugin[video].ispaused,
+			plugin[video].play();
+			set(layer[skin_video_playpause].state, 'hidden');
+			tween(layer[skin_video_playpause].alpha, 0.0);
+		  ,
+			plugin[video].pause();
+			set(layer[skin_video_playpause].state, 'visible');
+			tween(layer[skin_video_playpause].alpha, 1.0);
+			delayedcall(skin_autohide_pp, 2.0, set(layer[skin_video_playpause].state,'hidden'); tween(layer[skin_video_playpause].alpha, 0.0); );
+		  );
+	</action>
+
+
+	<action name="skin_open_settings">
+		if(skin_settings_opened !== true,
+			set(skin_settings_opened, true);
+
+			tween(layer[skin_btn_settings].rotate, 90);
+			tween(layer[skin_settings_menu].alpha, 1.0, 0.2);
+		  );
+	</action>
+
+
+	<action name="skin_close_settings">
+		if(skin_settings_opened === true,
+			set(skin_settings_opened, false);
+
+			tween(layer[skin_btn_settings].rotate, 0);
+			tween(layer[skin_settings_menu].alpha, 0.0, 0.2);
+			tween(layer[skin_settings_quality].alpha, 0.0, 0.2);
+		  );
+	</action>
+
+	
+
+	<!-- video interface actions -->
+
+	<!-- videointerface_addsource (name, videourl, posterurl)
+		%1 - name
+		%2 - videourl
+		%3 - posterurl
+	-->
+	<action name="videointerface_addsource">
+		<!-- init/setup the video interface skin -->
+		skin_video_setup();
+
+		set(videosources['v%1'].sourcename, '%1');
+		set(videosources['v%1'].videourl, '%2');
+		set(videosources['v%1'].posterurl, '%3');
+
+		<!-- add layers to the quality sub-menu -->
+		calc(lname, 'skin_settings_q' + videosources.count);
+		addlayer(get(lname));
+		copy(ly, layer[get(lname)]);
+		ly.loadstyle(settingsitem);
+		calc(ly.y, 20 + 24*videosources.count);
+		set(ly.parent, 'skin_settings_quality');
+		set(ly.onclick, videointerface_play('%1') );
+		calc(lname2, lname + 't');
+		addlayer(get(lname2));
+		copy(ly2, layer[get(lname2)]);
+		ly2.loadstyle(skintext);
+		copy(ly2.parent, lname);
+		set(ly2.align,'center');
+		set(ly2.html,'%1');
+		copy(videosources['v%1'].textelement, ly2);
+
+		calc(layer[skin_settings_quality].height, 20+24+24*videosources.count+6);
+	</action>
+
+
+	<!-- videointerface_addsource
+		%1 - name
+		%2 - videourl
+		%3 - posterurl
+	-->
+	<action name="videointerface_play">
+		set(layer[skin_error].visible, false);
+		copy(vs, videosources['v%1']);
+		plugin[video].playvideo(get(vs.videourl), get(vs.posterurl), get(plugin[video].pausedonstart), get(plugin[video].time));
+		skin_volumectrl_update();
+		set(layer[skin_quality].html, %1);
+		for(set(i,0), i LT videosources.count, inc(i),
+			videosources[get(i)].textelement.loadstyle(calc(videosources[get(i)].sourcename == '%1' ? 'skintext_sel' : 'skintext'));
+		  );
+	</action>
+
+</krpano>
