@@ -95,8 +95,7 @@
 	<events name="skin_events" keep="true"
 	        onclick="skin_video_click_event();"
 			onmousedown="skin_video_down_event();"	
-	        onnewpano="skin_showloading(true);"
-	        onloadcomplete="skin_showloading(false);"
+	        
 	        onenterfullscreen.fullscreensupport="set(layer[skin_btn_fs].crop, '64|576|64|64');"
 	        onexitfullscreen.fullscreensupport="set(layer[skin_btn_fs].crop, '0|576|64|64');"
 	        />
@@ -456,29 +455,32 @@
 
 		calc(layer[skin_settings_quality].height, 20+24+24*videosources.count+6);
 	</action>
-
-
+	
 	<!-- videointerface_addsource
 		%1 - name
 		%2 - videourl
 		%3 - posterurl
 	-->
 	<action name="videointerface_play">
+		skin_showloading(true);
+		
 		set(layer[skin_error].visible, false);
 		copy(vs, videosources['v%1']);
 				set(layer[skin_error].visible, false);
 		copy(vs, videosources['v%1']);
 		<!-- get specific HD frame -->
 		def(previewFrameName, string );
-		<!-- first time -->
-		if(currentFrame === null, set(currentFrame, 100011));
 		
+		<!-- first time -->
+		if(currentFrame === null, set(currentFrame, 100001));
 		
 		set(timeTest, get(plugin[video].time));
 		ifnot(timeTest==NaN,
-			copy(currentFrame,plugin[video].time);
-			roundval(currentFrame,0);
-			calc(currentFrame, currentFrame + 100001);
+			ifnot(timeTest==0,
+				copy(currentFrame,plugin[video].time);
+				roundval(currentFrame,0);
+				calc(currentFrame, currentFrame + 100001);	
+			)
 		);
 	
 		<!--
@@ -487,8 +489,8 @@
 		subtxt(previewFrame, get(currentFrame), 1, 5);
 		txtadd(previewFrameName, get(vs.posterurl), get(previewFrame));
 		txtadd(previewFrameName, get(previewFrameName), '.jpg');
-		//set(plugin[video].onvideoready,skin_showloading(false));
 		plugin[video].playvideo(get(vs.videourl), get(previewFrameName), get(plugin[video].pausedonstart), get(plugin[video].time));
+		set(plugin[video].onvideoready,skin_showloading(false));
 		skin_volumectrl_update();
 		set(layer[skin_quality].html, %1);
 		for(set(i,0), i LT videosources.count, inc(i),
