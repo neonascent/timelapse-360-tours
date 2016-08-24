@@ -129,7 +129,7 @@
 			</layer>
 
 			<!-- right buttons - vr, settings, fullscreen -->
-			<layer name="skin_quality_container" style="settingsitem" width="80" align="right" edge="center" x.fullscreensupport="87" x.no-fullscreensupport="50" y="0" onclick="tween(layer[skin_settings_menu].alpha,0.0,0.2);tween(layer[skin_settings_quality].alpha,1.0,0.2);">
+			<layer name="skin_quality_container" style="settingsitem" width="80" align="right" edge="center" x.fullscreensupport="87" x.no-fullscreensupport="50" y="0" onclick="if(skin_settings_opened !== true, skin_open_settings(), skin_close_settings() );">
 				<layer name="skin_quality" style="skintext" align="left" x="10" html="" />
 	     	</layer>
 			
@@ -154,7 +154,7 @@
 
 			<!-- video-quality sub-menu -->
 			<layer name="skin_settings_quality" type="container" align="righttop" edge="rightbottom" width="108" height="calc:8+24+8" autoalpha="true" alpha="0.0" y="-24" bgcapture="true" handcursor="false" bgcolor="get:skin_settings.design_bgcolor" bgalpha="get:skin_settings.design_bgalpha" bgborder="get:skin_settings.design_bgborder" bgroundedge="get:skin_settings.design_bgroundedge" bgshadow="get:skin_settings.design_bgshadow">
-				<layer name="skin_settings_q0" style="settingsitem" y="8" onclick="tween(layer[skin_settings_quality].alpha,0.0,0.2);tween(layer[skin_settings_menu].alpha,1.0,0.2);"><layer name="skin_settings_q0t" x="-1" style="skintext" align="center" html="Time period" /></layer>
+				<layer name="skin_settings_q0" style="settingsitem" y="8" onclick="skin_close_settings();"><layer name="skin_settings_q0t" x="-1" style="skintext" align="center" html="Time period" /></layer>
 				<layer name="skin_settings_qs" type="container" align="lefttop" y="36" width="100%" height="1" bgcolor="0xFFFFFF" bgalpha="0.5" />
 			</layer>
 
@@ -390,11 +390,33 @@
 		switch(control.touch, moveto, drag);
 	</action>
 	
-		<action name="skin_showloading">
+	<action name="skin_showloading">
 		if(display.stereo == true,
 			set(layer[skin_loadingtext].visible, false);
 		  ,
 			set(layer[skin_loadingtext].visible, %1);
+		  );
+	</action>
+	
+	
+	
+	
+	
+	<action name="skin_open_settings">
+		stopdelayedcall(skin_autohide);
+		if(skin_settings_opened !== true,
+			set(skin_settings_opened, true);
+			tween(layer[skin_settings_quality].alpha,1.0,0.2);
+		  );
+	</action>
+
+
+	<action name="skin_close_settings">
+		if(skin_settings_opened === true,
+			set(skin_settings_opened, false);
+			tween(layer[skin_btn_settings].rotate, 0);
+			tween(layer[skin_settings_quality].alpha, 0.0, 0.2);
+			skin_autohide(2.0)
 		  );
 	</action>
 	
@@ -465,7 +487,7 @@
 		subtxt(previewFrame, get(currentFrame), 1, 5);
 		txtadd(previewFrameName, get(vs.posterurl), get(previewFrame));
 		txtadd(previewFrameName, get(previewFrameName), '.jpg');
-		set(plugin[video].onvideoready,skin_showloading(false));
+		//set(plugin[video].onvideoready,skin_showloading(false));
 		plugin[video].playvideo(get(vs.videourl), get(previewFrameName), get(plugin[video].pausedonstart), get(plugin[video].time));
 		skin_volumectrl_update();
 		set(layer[skin_quality].html, %1);
