@@ -414,12 +414,15 @@
 	</action>
 	
 	<action name="share_button_click">
+		set(preShareGyro, get(plugin[skin_gyro].enabled));
 		skin_deeplinking_update_url_process();
 		skin_autohide();
+		set(plugin[skin_gyro].enabled, false);
 		js(showShare());
 	</action>
 	
 	<action name="endShare">
+		set(plugin[skin_gyro].enabled, get(preShareGyro));
 		skin_show();
 	</action>
 	
