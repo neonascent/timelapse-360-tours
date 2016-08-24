@@ -233,6 +233,10 @@
 		Math.floor(t2_sec);
 		calc(layer[skin_video_time].html, t1_min + ':' + (t1_sec LT 10 ? '0' : '') + t1_sec + ' / ' + t2_min + ':' + (t2_sec LT 10 ? '0' : '') + t2_sec);
 		calc(layer[skin_video_seekpos].x, (t1 / t2 * 100) + '%');
+		
+		set(sp, get(layer[skin_video_seekpos].x));
+		js(alert(get(sp));
+		
 		calc(layer[skin_video_loadbar].width, (plugin[video].loadedbytes / plugin[video].totalbytes * 100) + '%');
 	</action>
 
@@ -409,13 +413,14 @@
 	</action>
 	
 	<action name="checkLoading"> 
-		set(seek, get(plugin[video].isseeking));
-		if(seek, 
+		if(get(plugin[video].isseeking), 
 			delayedcall(0.2, checkLoading());
 		,
 			doneLoading();
 		);
 	</action>
+	
+	
 	
 	<action name="doneLoading">
 		set(layer[skin_loadingtext].visible, false);
