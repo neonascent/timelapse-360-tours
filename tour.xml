@@ -51,7 +51,7 @@
 			videointerface_addsource('Feb 2014', 'videos/VR_PanoramaHDold-1024-5000kps.mp4', 'videos/VR_PanoramaHDold/img');
 			videointerface_addsource('Sep 2014', 'videos/VR_PanoramaHDnew-1024-35pc.mp4', 'videos/VR_PanoramaHDnew/img');
 			
-			videointerface_play('Feb 2014');
+			js(startWithParameters('Feb 2014'));
 			<!--if(device.ios,-->
 				<!-- iOS Safari has a very slow 'video-to-webgl-texture' transfer, therefore use a low-res video by default -->
 				<!--videointerface_play('480p');

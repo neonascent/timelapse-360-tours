@@ -486,10 +486,14 @@
 		<!--
 		
 		calc(previewFrameName, get(vs.posterurl) + previewFrame + '.jpg');-->
+		
+		<!-- jump to point or just play at current -->
+		if((%2 === null), set(targetTime, get(plugin[video].time)), set(targetTime,  %2));
+		
 		subtxt(previewFrame, get(currentFrame), 1, 5);
 		txtadd(previewFrameName, get(vs.posterurl), get(previewFrame));
 		txtadd(previewFrameName, get(previewFrameName), '.jpg');
-		plugin[video].playvideo(get(vs.videourl), get(previewFrameName), get(plugin[video].pausedonstart), get(plugin[video].time));
+		plugin[video].playvideo(get(vs.videourl), get(previewFrameName), get(plugin[video].pausedonstart), get(targetTime));
 		set(plugin[video].onvideoready,skin_showloading(false));
 		skin_volumectrl_update();
 		set(layer[skin_quality].html, %1);
