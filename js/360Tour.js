@@ -51,6 +51,7 @@ var vlookat = null;
 var video = null;
 var time = null;
 var viewer = null;
+var fov = null;
 
 $(document).ready(function () {
 	// implemented in app.js
@@ -69,8 +70,17 @@ $(document).ready(function () {
 	vlookat = getParameterByName("vlookat") ? getParameterByName("vlookat") : 0;
 	video = getParameterByName("video") ? getParameterByName("video") : null;
 	time = getParameterByName("time") ? getParameterByName("time") : 0;
+	fov = getParameterByName("fov") ? getParameterByName("fov") : 90;
 	
+	// close share window
+	$( ".btnCloseShare" ).click(function() {
+	  $( "#share" ).fadeOut(200);
+	});
 });
+
+function showShare() {
+	$( "#share" ).fadeIn(200);
+}
 
 function startWithParameters(v) {
 
@@ -78,6 +88,10 @@ function startWithParameters(v) {
 		callPano("moveCameraTo("+hlookat+", "+vlookat+");");
 		callPano("set(plugin[video].pausedonstart, true);");
 	} 
+	
+	if (fov != 90) {
+		callPano("set(view.fov, "+ fov + ")");
+	}
 	
 	if (video !== null) {
 		callPano("videointerface_play('"+video+"',"+time+");");

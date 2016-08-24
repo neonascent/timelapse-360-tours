@@ -133,12 +133,20 @@
 	     	</layer>
 			
 			<layer name="skin_gyro_container" style="settingsitem" width="150" x="0" y="-50" alpha="0.5" enabled="false" onclick="switch(plugin[skin_gyro].enabled);">
-					<layer name="skin_gyro_txt" style="skintext" align="left" x="0" html="Gyro" />
-					<layer name="skin_gyro_not" style="skintext" align="left" x="30" html="N/A" visible="true" />
-					<layer name="skin_gyro_ctrl" type="container" align="left" x="30" width="24" height="12" bgborder="1 0xFFFFFF 1" bgroundedge="8" visible="false" alpha="0.5">
-						<layer name="skin_gyro_ctrl_i" type="container" align="left" x="-1" width="14" height="14" bgcolor="0xFFFFFF" bgalpha="1" bgroundedge="8" />
-					</layer>
+				<layer name="skin_gyro_txt" style="skintext" align="left" x="0" html="Gyro" />
+				<layer name="skin_gyro_not" style="skintext" align="left" x="30" html="N/A" visible="true" />
+				<layer name="skin_gyro_ctrl" type="container" align="left" x="30" width="24" height="12" bgborder="1 0xFFFFFF 1" bgroundedge="8" visible="false" alpha="0.5">
+					<layer name="skin_gyro_ctrl_i" type="container" align="left" x="-1" width="14" height="14" bgcolor="0xFFFFFF" bgalpha="1" bgroundedge="8" />
 				</layer>
+			</layer>
+			
+			<!-- share icon -->
+			<layer name="skin_share_icon"  x="8" y="-110"
+				onclick="share_button_click();" 
+				url="share.png" scale="0.4"
+				autoalpha="true" alpha="1.0"
+			/>
+			
 			
 			
 			<layer name="skin_btn_fullscreen" style="skin_base|skin_glow" crop="0|576|64|64" align="right" x="5" y="0" scale="0.5" onclick="switch(fullscreen);" devices="fullscreensupport" />
@@ -245,6 +253,14 @@
 	<action name="skin_video_updatestate">
 		calc(layer[skin_video_playpause].crop, plugin[video].ispaused ? '0|640|64|64' : '64|640|64|64');
 		copy(layer[skin_btn_playpause].crop, layer[skin_video_playpause].crop);
+		
+		if(plugin[video].ispaused,
+			set(layer[skin_share_icon].state, 'visible');
+			tween(layer[skin_share_icon].alpha, 1.0, 0.2);
+		  ,
+			set(layer[skin_share_icon].state, 'hidden');
+			tween(layer[skin_share_icon].alpha, 0.0, 0.2);
+		  );
 	</action>
 
 
@@ -397,9 +413,29 @@
 		  );
 	</action>
 	
+	<action name="share_button_click">
+		skin_deeplinking_update_url_process();
+		js(showShare());
+	</action>
 	
-	
-	
+	<action name="skin_deeplinking_update_url_process">
+		copy(adr, browser.location);
+		indexoftxt(qi, get(adr), '?');
+		if(qi GT 0, subtxt(adr, adr, 0, get(qi)));
+		copy(si, scene[get(xml.scene)].index);
+		copy(h, view.hlookat);
+		copy(v, view.vlookat);
+		copy(f, view.fov);
+		set(pp, calc(f LT 10 ? 6 : 2));
+		roundval(h, get(pp));
+		roundval(v, get(pp));
+		roundval(f, get(pp));
+		set(t,get(plugin[video].time));
+		roundval( t, 2);
+		set(video, get(vs.sourcename));
+		set(adr, calc(adr + '?hlookat=' + h + '&amp;vlookat=' + v + '&amp;time=' + t + '&amp;video=' + video + '&amp;fov=' + f));
+		js( history.replaceState(null, document.title, get(adr)); );
+	</action>
 	
 	<action name="skin_open_settings">
 		stopdelayedcall(skin_autohide);
@@ -465,8 +501,6 @@
 		skin_showloading(true);
 		
 		set(layer[skin_error].visible, false);
-		copy(vs, videosources['v%1']);
-				set(layer[skin_error].visible, false);
 		copy(vs, videosources['v%1']);
 		<!-- get specific HD frame -->
 		def(previewFrameName, string );

@@ -17,7 +17,7 @@
 
 		
 		
-		<view hlookat="0" vlookat="0" fovtype="dfov" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="120" limitview="auto" />
+		<view hlookat="0" vlookat="0" fovtype="vfov" fov="90.000" maxpixelzoom="2.0" fovmin="50" fovmax="110" limitview="auto" />
 
 		<preview url="" />
 		
