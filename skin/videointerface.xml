@@ -464,7 +464,7 @@
 		subtxt(previewFrame, get(currentFrame), 1, 5);
 		txtadd(previewFrameName, get(vs.posterurl), get(previewFrame));
 		txtadd(previewFrameName, get(previewFrameName), '.jpg');
-		<!--set(plugin[video].onvideoready,skin_showloading(false));-->
+		set(plugin[video].onvideoready,skin_showloading(false));
 		plugin[video].playvideo(get(vs.videourl), get(previewFrameName), get(plugin[video].pausedonstart), get(plugin[video].time));
 		skin_volumectrl_update();
 		set(layer[skin_quality].html, %1);
