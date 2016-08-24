@@ -280,11 +280,11 @@
 
 
 	<action name="skin_autohide">
-		//delayedcall(skin_autohide, %1,
-		//	set(layer[skin_control_bar].state, 'hidden');
-		//	tween(layer[skin_control_bar].y, calc(-(skin_settings.controlbar_offset + skin_settings.controlbar_height)));
-		//	tween(layer[skin_control_bar].alpha, 0.0);
-		// );
+		delayedcall(skin_autohide, %1,
+			set(layer[skin_control_bar].state, 'hidden');
+			tween(layer[skin_control_bar].y, calc(-(skin_settings.controlbar_offset + skin_settings.controlbar_height)));
+			tween(layer[skin_control_bar].alpha, 0.0);
+		 );
 	</action>
 
 
