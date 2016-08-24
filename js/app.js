@@ -515,7 +515,7 @@ define("app/MobileCheck", ["jquery"], function(e) {
                 var n = this,
                     i = l.xmlFile;
                 if (this.detectKrpanoCapabilities()) l.capability = this.detectKrpanoCapabilities(), window.embedpano({
-                    swf: "../viewer/krpano.swf",
+                    swf: "./viewer/krpano.swf",
                     xml: i,
                     target: "pano",
                     html5: n.detectKrpanoCapabilities(),

@@ -1,25 +1,27 @@
-﻿<krpano version="1.19" title="Virtual Tour">
+﻿<krpano>
 
-	<include url="skin/videointerface.xml" />
-	<include url="actions.xml" />
-
-	
-
-	<!-- startup action - load the first scene -->
 	<action name="startup" autorun="onstart">
-		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
-		loadscene(get(startscene), null, MERGE);
-		if(startactions !== null, startactions() );
+		
+		if(device.panovideosupport == false,
+			error('Sorry, but panoramic videos are not supported by your current browser!');
+		  ,
+			loadscene(videopano);
+		  );
 	</action>
 
+	<scene name="videopano" title="Trafalgar St Tunnel">
 
-	
-	<scene name="scene1" title="Trafalgar St Tunnel" onstart="" thumburl="videos/scene1_thumb.jpg" lat="" lng="" heading="">
+		<!-- include the videoplayer interface / skin (with VR support) -->
+		<include url="skin/videointerface.xml" />
+		<include url="actions.xml" />
 
+		
+		
 		<view hlookat="0" vlookat="0" fovtype="dfov" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="120" limitview="auto" />
 
 		<preview url="" />
 		
+		<!-- include the videoplayer plugin -->
 		<plugin name="video"
 			url.flash="%SWFPATH%/plugins/videoplayer.swf"
 			url.html5="%SWFPATH%/plugins/videoplayer.js"
@@ -57,41 +59,8 @@
 				videointerface_play('1440p');
 			  );-->
 		</action>		
-		
-	<!--	<layer name="map_image" keep="true" 
-			 url="../images/mudmap/01_University_mall_entrance.png"
-			 scale="0.75"
-			 x="0" y="0"
-			 align="rightbottom" alpha="1" autoalpha="true"
-			 />-->
-		
-		<hotspot name="spot3" style="skin_hotspotstyle" ath="45.401" atv="-1.943" linkedscene="scene10" />
-		<hotspot name="scene1_spot4" style="hotspot_image" ath="98.828" atv="-23.991" onclick="js( myHotspots.clicked(scene1_spot4 ) );" />
-		<hotspot name="scene1_spot5" style="hotspot_image" ath="93.545" atv="1.817" onclick="js( myHotspots.clicked(scene1_spot5 ) );" />
-		<!-- place your scene hotspots here -->
-		
-		<hotspot name="scene1_spot6" style="hotspot_image" ath="116.238" atv="-2.861" onclick="js( myHotspots.clicked(scene1_spot6 ) );" />
-		<hotspot name="spot7" style="skin_hotspotstyle" ath="173.439" atv="-3.314" linkedscene="scene5" />
-		<hotspot name="spot8" style="skin_hotspotstyle" ath="206.480" atv="-1.793" linkedscene="scene8" />
-		<hotspot name="scene1_spot9" style="hotspot_video" ath="271.122" atv="-16.873" onclick="js( myHotspots.clicked(scene1_spot9 ) );" />
-		<hotspot name="scene1_spot10" style="hotspot_video" ath="298.426" atv="-6.924" onclick="js( myHotspots.clicked(scene1_spot10 ) );" />
-		<hotspot name="scene1_spot11" style="hotspot_video" ath="-3.694" atv="-15.385" onclick="js( myHotspots.clicked(scene1_spot11 ) );" />
-		<hotspot name="scene1_spot12" style="hotspot_image" ath="44.738" atv="-35.709" onclick="js( myHotspots.clicked(scene1_spot12 ) );" />
-		
-		<!-- mud map -->
-<!--
-		../images/Mud%20map/01_University_mall_entrance.png
-		
-		-->
-		
-		
-		
+
 	</scene>
 
-	<scene name="scene2" title="University Mall" onstart="" thumburl="videos/scene1_thumb.jpg" lat="" lng="" heading="">
-
-		
-	</scene>
-	
-	
 </krpano>
+
