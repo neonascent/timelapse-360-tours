@@ -415,7 +415,12 @@
 	
 	<action name="share_button_click">
 		skin_deeplinking_update_url_process();
+		skin_autohide();
 		js(showShare());
+	</action>
+	
+	<action name="endShare">
+		skin_show();
 	</action>
 	
 	<action name="skin_deeplinking_update_url_process">

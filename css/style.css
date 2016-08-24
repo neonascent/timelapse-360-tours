@@ -3083,8 +3083,6 @@ html body.hotspot-open {
     text-align: center;
     width: 80%;
     margin: 0 auto
-}
-#share .share-loading {
     content: "";
     display: block;
     margin: 0 auto 30px;
@@ -3092,7 +3090,38 @@ html body.hotspot-open {
     width: 500px;
     height: 80px;
     background: url(../images/share-icons.png) 0 0 no-repeat ;
-    background-size: 100%
+    background-size: 100%;
+}
+
+@media screen and (max-width: 49em) and (orientation: portrait) {
+    #share .share-loading {
+		width: 80%;
+		height: 80%;
+		top: 50%;
+		-moz-transform: translateY(-20%);
+		-ms-transform: translateY(-20%);
+		-webkit-transform: translateY(-20%);
+		transform: translateY(-20%);
+    }
+}
+
+@media screen and (max-width: 49em) and (orientation: landscape) {
+    #share .share-loading {
+		width: 60%;
+		height: 100%;
+		top:50%;
+		font-size: 1.0em;
+		-moz-transform: translateY(-25%);
+		-ms-transform: translateY(-25%);
+		-webkit-transform: translateY(-25%);
+		transform: translateY(-25%);
+    }
+}
+
+@media screen and (min-width: 49em)
+#share .share-loading {
+    width: 500px;
+    height: 80px;
 }
 
 #share .btnCloseShare {

@@ -72,11 +72,22 @@ $(document).ready(function () {
 	time = getParameterByName("time") ? getParameterByName("time") : 0;
 	fov = getParameterByName("fov") ? getParameterByName("fov") : 90;
 	
+	// preload share image
+	preload(['images/share-icons.png']);
+	
 	// close share window
 	$( ".btnCloseShare" ).click(function() {
 	  $( "#share" ).fadeOut(200);
+	  callPano("endShare();");
 	});
 });
+
+function preload(arrayOfImages) {
+    $(arrayOfImages).each(function(){
+        $('<img/>')[0].src = this;
+    });
+}
+
 
 function showShare() {
 	$( "#share" ).fadeIn(200);
