@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<title>krpano - video_360</title>
+	<title>Trafalgar St tunnel</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -17,17 +17,17 @@
 	<!-- Style -->
 	<link rel="stylesheet" href="css/main.css"/>
 	<link rel="stylesheet" href="css/style.css"/>
-	<link rel="stylesheet" href="css/unsw.css"/>
 
 	<script src="viewer/krpano.js"></script>
-	<script src="js/almond.js"></script>	
+	
+	<!--<script src="js/almond.js"></script>	
 	<script src="js/krpano.js"></script>
 	<script src="js/modernizr.js"></script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery.slides.min.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/media-element.js"></script>	
-	<script src="js/temp-behaviour.js"></script>	
+	<script src="js/temp-behaviour.js"></script>	-->
 		
 		
 		<!--<script type="text/javascript" src="js/three.min.js" defer="defer"></script>
@@ -38,7 +38,7 @@
 		
 </head>
 <body class="intro">	
-	<div id="debug" style="position:fixed; z-index:3000; top:0; right:0; padding:5px; background:red; display:none;"></div>
+<!--	<div id="debug" style="position:fixed; z-index:3000; top:0; right:0; padding:5px; background:red; display:none;"></div>
 	<ul id="status2" style="position:fixed; z-index:3000; top:50px; right:0; padding:5px; background:royalblue; display:none;">
 		<li id="statready"></li><li id="statpause"></li><li id="statix"></li><li id="statseek"></li>
 	</ul>
@@ -74,30 +74,25 @@
 	<div id="overlay">
 		<div id="overlay-div"></div>
 	</div>
-	<div class="map">
-		<div id="map-wrap">
-			<div class="top-line"></div>
-			<div class="right-line"></div>
-			<div class="map-inner">
-				<ul>
-					<li class="ausschoolofbusiness"><a href="#">Australian School of Business</a></li>
-					<li class="library"><a href="#">Library</a></li>
-					<li class="biologicalsciences"><a href="#">Biological Sciences</a></li>
-					<li class="library"><a href="#">Foyer</a></li>
-					<li class="biologicalsciences"><a href="#">Balcony</a></li>
-					<li class="internationalhouse"><a href="#">International House</a></li>
-				</ul>
-			 </div>
-		</div>
-	</div>
-
 	
+
+	<div id="homepage">
+		<div class="homepage-inner">
+			<div class="logo">
+				<h1>Here</h1>
+				<p class="link btn btnFilm" data-type="film">Explore the Tunnel in 360°</p>
+				<h2>University Of Sydney</h2>
+			</div>
+			<p class="mobile-note">Rotate your device to begin</p>
+		</div>	
+		<div class="homepage-bg"></div>
+	</div>
 
 	<div id="intro">
 		<h2 class="intro-loading">Loading Trafalgar St Tunnel...</h2>
 		<div id="intro-fallback">
 			<div class="logo">
-				<h1>Here</h1>
+				<h1>Problems!</h1>
 				<div id="intro-fallback-msg">
 					<h3 id="fallback-heading">Oops, looks like you need to upgrade your browser.</h3>
 					<p id="fallback-copy">This site requires a modern web browser. To get the most out of this 360&deg; experience, you need 
@@ -119,87 +114,9 @@
 		</div>		
 	</div>
 
-	<div id="wrap">
-		<div id="location-hint">
-			<div class="hint"></div>
-		</div>
-
-		<h1 id="location-title">UNSW 360 Tour</h1>		
-
-		<div id="list-view">
-			<div id="map-btn"></div>
-			<ol class="list-view-inner">
-				<li class="scene1">
-					<span>Welcome to UNSW Australia</span><p></p>
-				</li>
-				<li class="scene2">
-					<span>University Mall</span><p></p>
-				</li>			
-				<li class="scene3">
-					<span>Village Green</span><p></p>
-				</li>
-				<li class="scene4">
-					<span>Centre for Quantum Computing and Communication Technology</span><p></p>
-				</li>
-				<li class="scene5">
-					<span>Alumni Park</span><p></p>
-				</li>					
-				<li class="scene6">
-					<span>Upper Campus AGSM</span><p></p>
-				</li>		
-				<li class="scene7">
-					<span>Lower Campus (Gate 2)</span><p></p>
-				</li>
-				<li class="scene8">
-					<span>Goldstein Courtyard</span><p></p>
-				</li>
-				<li class="scene9">
-					<span>Quadrangle</span><p></p>
-				</li>
-				<li class="scene10">
-					<span>International Square</span><p></p>
-				</li>
-				<li class="scene11">
-					<span>Scientia Lawn</span><p></p>
-				</li>
-				<li class="scene12">
-					<span>Solar Industrial Research Facility</span><p></p>
-				</li>
-				<li class="scene13">
-					<span>UNSW Library</span><p></p>
-				</li>
-				<li class="scene14">
-					<span>UNSW Librarty Lawn</span><p></p>
-				</li>				
-				<li class="scene15">
-					<span>Michael Birt Lawn</span><p></p>
-				</li>
-				<li class="scene16">
-					<span>UNSW Art and Design</span><p></p>
-				</li>				
-				<li class="scene17">
-					<span>Sydney</span><p></p>
-				</li>				
-			</ol>
-		</div>
-		
-		<div class="tempBlackFill bgList"></div>
-
-		<div id="video-controls" class="fadeable">
-			<p class="control-play-pause"></p>
-			<p class="footer-trigger"></p>
-			<span class="play-hint">Press to pause the film and explore.</span>
-			<div id="degrees-horiz-left" class="degrees"></div>
-			<div id="degrees-horiz-right" class="degrees"></div>
-		</div>
-
-
-		<div class="tempBlackFill bgNav"></div> -->
-	</div>
-
 	<div id="degrees-status-vert" class="degrees"><span>-90.53</span></div>
 
-	<div id="pano"></div>
+	<div id="pano"></div>-->
 
 	<div id="audio">
 		<!--<audio id="audio-pads" preload="auto" loop>
@@ -217,7 +134,12 @@
 		<audio id="audio-vo"></audio>
 	</div>
 
-   	<!-- <script src="js/main.js"></script> -->        
+	<div id="pano" style="width:100%;height:100%;">
+		<noscript><table style="width:100%;height:100%;"><tr style="vertical-align:middle;text-align:center;"><td>ERROR:<br><br>Javascript not activated<br><br></td></tr></table></noscript>
+		<script>
+			embedpano({swf:"./viewer/krpano.swf", xml:"tour.xml", target:"pano", html5:"auto", mobilescale:1.0, passQueryParameters:true});
+		</script>
+	</div>
    
 </body>
 </html>
