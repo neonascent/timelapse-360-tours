@@ -413,7 +413,8 @@
 	</action>
 	
 	<action name="checkLoading"> 
-		if(get(plugin[video].isseeking), 
+		set(isseeking, get(plugin[video].isseeking));
+		if(isseeking, 
 			delayedcall(0.2, checkLoading());
 		,
 			doneLoading();
