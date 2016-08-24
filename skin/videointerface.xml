@@ -133,14 +133,15 @@
 				<layer name="skin_quality" style="skintext" align="left" x="10" html="" />
 	     	</layer>
 			
-			<layer name="skin_gyro_container" style="settingsitem" x="0" y="-50" alpha="0.5" enabled="false" onclick="switch(plugin[skin_gyro].enabled);">
-					<layer name="skin_gyro_txt" style="skintext" align="left" x="10" html="Gyro Control" />
-					<layer name="skin_gyro_not" style="skintext" align="right" x="10" html="Not available" visible="true" />
-					<layer name="skin_gyro_ctrl" type="container" align="right" x="10" width="24" height="12" bgborder="1 0xFFFFFF 1" bgroundedge="8" visible="false" alpha="0.5">
+			<layer name="skin_gyro_container" style="settingsitem" width="150" x="0" y="-50" alpha="0.5" enabled="false" onclick="switch(plugin[skin_gyro].enabled);">
+					<layer name="skin_gyro_txt" style="skintext" align="left" x="0" html="Gyro" />
+					<layer name="skin_gyro_not" style="skintext" align="left" x="30" html="N/A" visible="true" />
+					<layer name="skin_gyro_ctrl" type="container" align="left" x="30" width="24" height="12" bgborder="1 0xFFFFFF 1" bgroundedge="8" visible="false" alpha="0.5">
 						<layer name="skin_gyro_ctrl_i" type="container" align="left" x="-1" width="14" height="14" bgcolor="0xFFFFFF" bgalpha="1" bgroundedge="8" />
 					</layer>
 				</layer>
-
+			
+			
 			<layer name="skin_btn_fullscreen" style="skin_base|skin_glow" crop="0|576|64|64" align="right" x="5" y="0" scale="0.5" onclick="switch(fullscreen);" devices="fullscreensupport" />
 
 			<!-- title, video time -->
