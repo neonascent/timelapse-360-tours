@@ -520,6 +520,7 @@
 		ifnot(timeTest==NaN,
 			ifnot(timeTest==0,
 				copy(currentFrame,plugin[video].time);
+				mul(currentFrame,2);
 				roundval(currentFrame,0);
 				calc(currentFrame, currentFrame + 100001);	
 			)
