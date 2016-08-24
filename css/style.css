@@ -3398,10 +3398,22 @@ html body.hotspot-open {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%
+    height: 88%
 }
+
+#intro-logos {
+    background: url(../images/ivec-marrickville.jpg) center center no-repeat;
+	background-color: #ffffff;
+    background-size: contain;
+    position: fixed;
+    top: 88%;
+    left: 0;
+    width: 100%;
+    height: 12%
+}
+
 @media screen and (max-width: 49em) {
-    #intro-poster {
+    #intro-poster, #intro-logos  {
         display: block
     }
 }
@@ -5878,6 +5890,10 @@ html body.hotspot-open {
 #intro-fallback {
     z-index: 15
 }
+#intro-logos {
+    z-index: 20
+}
+
 #intro-poster {
     z-index: 10
 }

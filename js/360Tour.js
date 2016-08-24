@@ -88,6 +88,11 @@ function preload(arrayOfImages) {
     });
 }
 
+function hideStartBox() {
+	$( "#intro-poster" ).fadeOut(1000);
+	$( "#intro-logos" ).fadeOut(1000);
+	$( "#intro" ).fadeOut(200);
+}
 
 function showShare() {
 	$( "#share" ).fadeIn(200);

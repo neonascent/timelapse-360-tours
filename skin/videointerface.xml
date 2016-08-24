@@ -95,7 +95,6 @@
 	<events name="skin_events" keep="true"
 	        onclick="skin_video_click_event();"
 			onmousedown="skin_video_down_event();"	
-	        
 	        onenterfullscreen.fullscreensupport="set(layer[skin_btn_fs].crop, '64|576|64|64');"
 	        onexitfullscreen.fullscreensupport="set(layer[skin_btn_fs].crop, '0|576|64|64');"
 	        />
@@ -405,12 +404,22 @@
 		switch(control.touch, moveto, drag);
 	</action>
 	
-	<action name="skin_showloading">
-		if(display.stereo == true,
-			set(layer[skin_loadingtext].visible, false);
-		  ,
-			set(layer[skin_loadingtext].visible, %1);
-		  );
+	<action name="showLoading">
+		set(layer[skin_loadingtext].visible, true);
+	</action>
+	
+	<action name="checkLoading"> 
+		set(seek, get(plugin[video].isseeking));
+		if(seek, 
+			delayedcall(0.2, checkLoading());
+		,
+			doneLoading();
+		);
+	</action>
+	
+	<action name="doneLoading">
+		set(layer[skin_loadingtext].visible, false);
+		js(hideStartBox());
 	</action>
 	
 	<action name="share_button_click">
@@ -506,7 +515,7 @@
 		%3 - posterurl
 	-->
 	<action name="videointerface_play">
-		skin_showloading(true);
+		showLoading();
 		
 		set(layer[skin_error].visible, false);
 		copy(vs, videosources['v%1']);
@@ -537,7 +546,7 @@
 		txtadd(previewFrameName, get(vs.posterurl), get(previewFrame));
 		txtadd(previewFrameName, get(previewFrameName), '.jpg');
 		plugin[video].playvideo(get(vs.videourl), get(previewFrameName), get(plugin[video].pausedonstart), get(targetTime));
-		set(plugin[video].onvideoready,skin_showloading(false));
+		set(plugin[video].onvideoready,checkLoading());
 		skin_volumectrl_update();
 		set(layer[skin_quality].html, %1);
 		for(set(i,0), i LT videosources.count, inc(i),
