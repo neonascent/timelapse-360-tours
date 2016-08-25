@@ -43,21 +43,28 @@
 		<image devices="panovideosupport">
 			<sphere url="plugin:video" />
 		</image>
+		
+		
+		<image>
+			<sphere url="plugin:video" />
+		</image>
 
 		<!-- add the video sources and play the video -->
 		<action name="add_video_sources">
 			videointerface_clear();
-			videointerface_addsource('2010', 'videos/VR_PanoramaHD2010-1024.mp4', 'videos/VR_PanoramaHD2010/img');
-			videointerface_addsource('Feb 2014', 'videos/VR_PanoramaHDold-1024-5000kps.mp4', 'videos/VR_PanoramaHDold/img');
-			videointerface_addsource('Sep 2014', 'videos/VR_PanoramaHDnew-1024-35pc.mp4', 'videos/VR_PanoramaHDnew/img');
+			if(device.ios,
+				<!-- iOS Safari has a very slow 'video-to-webgl-texture' transfer, therefore use a low-res video by default -->
+				videointerface_addsource('2010', 'videos/VR_Panorama_2010_512.mp4', 'videos/VR_Panorama_2010/img');
+				videointerface_addsource('Feb 2014', 'videos/VR_Panorama_Feb2014_512.mp4', 'videos/VR_Panorama_Feb2014/img');
+				videointerface_addsource('Sep 2014', 'videos/VR_Panorama_Sep2014_512.mp4', 'videos/VR_Panorama_Sep2014/img');
+			  ,
+				videointerface_addsource('2010', 'videos/VR_Panorama_2010_1024.mp4', 'videos/VR_Panorama_2010/img');
+				videointerface_addsource('Feb 2014', 'videos/VR_Panorama_Feb2014_1024.mp4|videos/VR_Panorama_Feb2014_1024.ogv', 'videos/VR_Panorama_Feb2014/img');
+				videointerface_addsource('Sep 2014', 'videos/VR_Panorama_Sep2014_1024.mp4|videos/VR_Panorama_Sep2014_1024.ogv', 'videos/VR_Panorama_Sep2014/img');
+			  );
 			
 			js(startWithParameters('Feb 2014'));
-			<!--if(device.ios,-->
-				<!-- iOS Safari has a very slow 'video-to-webgl-texture' transfer, therefore use a low-res video by default -->
-				<!--videointerface_play('480p');
-			  ,
-				videointerface_play('1440p');
-			  );-->
+
 		</action>		
 
 	</scene>
