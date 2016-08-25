@@ -276,23 +276,23 @@
 	<action name="skin_video_click_event">
 		delayedcall(skin_click_detection, 0.25,
 			if(layer[skin_control_bar].state == 'hidden',
-				stopdelayedcall(skin_autohide_pp);
 				skin_show();
-				skin_show_playpause();
 			  ,
-				if(skin_settings_opened === true OR skin_volumectrl_opened == true,
-					skin_close_settings();
-					skin_close_volumectrl();
-				  ,
-					stopdelayedcall(skin_autohide_pp);
-					if(layer[skin_video_playpause].state == 'hidden',
-						skin_show_playpause();
-					  ,
-						skin_hide_playpause();
-						skin_autohide(0.0);
-					  );
-				  );
+				if(skin_settings_opened !== true, skin_autohide(6.0));
 			  );
+
+			if(plugin[video].ispaused,
+				plugin[video].play();
+				set(layer[skin_video_playpause].state, 'visible');
+				tween(layer[skin_video_playpause].alpha, 1.0);
+				delayedcall(skin_autohide_pp, 2.0, set(layer[skin_video_playpause].state,'hidden'); tween(layer[skin_video_playpause].alpha, 0.0); );
+			  ,
+				plugin[video].pause();
+				set(layer[skin_video_playpause].state, 'visible');
+				tween(layer[skin_video_playpause].alpha, 1.0);
+				delayedcall(skin_autohide_pp, 2.0, set(layer[skin_video_playpause].state,'hidden'); tween(layer[skin_video_playpause].alpha, 0.0); );
+			  );
+			  
 		  );
 	</action>
 
